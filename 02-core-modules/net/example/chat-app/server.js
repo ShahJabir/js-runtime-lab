@@ -12,14 +12,20 @@ let isRetrying = false;
 const server = net.createServer();
 
 server.on("connection", (socket) => {
-  console.log(
-    `[CONNECTION] Client connected: ${socket.remoteAddress}:${socket.remotePort}`,
-  );
-
   // Assign a unique client ID
   const clientId = nextClientId++;
   socket.clientId = clientId;
   clients.push(socket);
+
+  // Notify all other clients that a new client has joined
+  clients.forEach((client) => {
+    if (client !== socket && client.writable) {
+      client.write(`Client ${clientId} joined the chat\n`);
+    }
+  });
+  console.log(
+    `[CONNECTION] Client ${clientId} connected: ${socket.remoteAddress}:${socket.remotePort}`,
+  );
 
   // Send the client its ID
   socket.write(`YOUR_ID:${clientId}\n`);
@@ -37,12 +43,12 @@ server.on("connection", (socket) => {
     }
 
     // Print log with sender id and message
-    console.log(`[DATA] Received: client ${senderId}: ${message}`);
+    console.log(`[DATA] Received: Client ${senderId}: ${message}`);
 
     // Broadcast to all connected clients (except the sender)
     clients.forEach((client) => {
       if (client !== socket && client.writable) {
-        client.write(`client ${senderId}: ${message}\n`);
+        client.write(`Client ${senderId}: ${message}\n`);
       }
     });
   });
@@ -53,7 +59,9 @@ server.on("connection", (socket) => {
 
   socket.on("close", (hadError) => {
     const status = hadError ? "with error" : "normally";
-    console.log(`[CONNECTION] Client disconnected ${status}`);
+    console.log(
+      `[CONNECTION] Client ${socket.clientId} disconnected ${status}`,
+    );
 
     // Remove the disconnected socket from clients array
     const index = clients.indexOf(socket);
@@ -63,7 +71,7 @@ server.on("connection", (socket) => {
   });
 
   socket.on("end", () => {
-    console.log(`[CONNECTION] Client initiated close`);
+    console.log(`[CONNECTION] Client ${socket.clientId} initiated close`);
   });
 });
 

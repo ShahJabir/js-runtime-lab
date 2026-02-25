@@ -56,7 +56,7 @@ const client = net.createConnection({ port: PORT, host: HOST }, async () => {
         // Check if server sent our client ID
         if (msg.startsWith("YOUR_ID:")) {
           myClientId = msg.split(":")[1];
-          console.log(`[INFO] Your client ID is ${myClientId}`);
+          console.log(`[INFO] Your Client ID is ${myClientId}`);
           ask(); // Start prompting only after client ID is received
           continue;
         }
