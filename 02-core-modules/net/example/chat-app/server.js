@@ -5,6 +5,7 @@ const HOST = process.env.HOST || "localhost";
 const MAX_RETRIES = parseInt(process.env.MAX_RETRIES || "20", 10);
 
 const clients = [];
+let nextClientId = 1;
 let retry = 0;
 let isRetrying = false;
 
@@ -15,17 +16,33 @@ server.on("connection", (socket) => {
     `[CONNECTION] Client connected: ${socket.remoteAddress}:${socket.remotePort}`,
   );
 
-  // Add socket to clients list when connected
+  // Assign a unique client ID
+  const clientId = nextClientId++;
+  socket.clientId = clientId;
   clients.push(socket);
 
+  // Send the client its ID
+  socket.write(`YOUR_ID:${clientId}\n`);
+
   socket.on("data", (data) => {
-    console.log(`[DATA] Received: ${data.toString("utf-8")}`);
+    const msg = data.toString("utf-8").trim();
+
+    // Expect message format: <clientId>:<message>
+    const separatorIdx = msg.indexOf(":");
+    let senderId = "unknown";
+    let message = msg;
+    if (separatorIdx !== -1) {
+      senderId = msg.slice(0, separatorIdx);
+      message = msg.slice(separatorIdx + 1);
+    }
+
+    // Print log with sender id and message
+    console.log(`[DATA] Received: client ${senderId}: ${message}`);
 
     // Broadcast to all connected clients (except the sender)
     clients.forEach((client) => {
-      // Only write if the socket is writable and not the sender
       if (client !== socket && client.writable) {
-        client.write(data + "\n");
+        client.write(`client ${senderId}: ${message}\n`);
       }
     });
   });

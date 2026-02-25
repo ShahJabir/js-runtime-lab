@@ -26,6 +26,7 @@ const moveCursor = (dx, dy) => {
 };
 
 let isWaitingForInput = false;
+let myClientId = null;
 
 const client = net.createConnection({ port: PORT, host: HOST }, async () => {
   console.log(`[CLIENT] Connected to ${HOST}:${PORT}`);
@@ -35,33 +36,36 @@ const client = net.createConnection({ port: PORT, host: HOST }, async () => {
     isWaitingForInput = false;
     await moveCursor(0, -1);
     await clearLine(0);
-    // Send message with newline delimiter
-    client.write(message + "\n");
-    // Immediately ask for next message after sending
+    // Always send message as <clientId>:<message>
+    if (myClientId !== null) {
+      client.write(`${myClientId}:${message}\n`);
+    } else {
+      client.write(message + "\n");
+    }
     ask();
   };
-  ask();
+  // Do not call ask() here; wait until client ID is received
 
   let buffer = "";
   client.on("data", async (data) => {
-    // Append data to buffer
     buffer += data.toString("utf-8");
-
-    // Process complete messages (split by newline)
     const messages = buffer.split("\n");
-
-    // Keep the last incomplete message in buffer
     buffer = messages.pop() || "";
-
-    // Display all complete messages
     for (const msg of messages) {
       if (msg.trim()) {
+        // Check if server sent our client ID
+        if (msg.startsWith("YOUR_ID:")) {
+          myClientId = msg.split(":")[1];
+          console.log(`[INFO] Your client ID is ${myClientId}`);
+          ask(); // Start prompting only after client ID is received
+          continue;
+        }
         if (isWaitingForInput) {
           console.log();
           await moveCursor(0, -1);
           await clearLine(0);
         }
-        console.log(`[OTHER CLIENT] ${msg}`);
+        console.log(`${msg}`);
         if (isWaitingForInput) {
           process.stdout.write("Write your message > ");
         }
