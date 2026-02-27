@@ -1,7 +1,7 @@
 import { open } from "node:fs/promises";
 
 (async () => {
-  const TOTAL_WRITES = 10000000;
+  const TOTAL_WRITES = 100000000;
   let totalWrites = 0;
   let totalBytes = 0;
   let drainCount = 0;

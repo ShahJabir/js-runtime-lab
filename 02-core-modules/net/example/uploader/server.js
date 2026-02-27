@@ -2,14 +2,22 @@ import net from "net";
 import fs from "fs/promises";
 
 const server = net.createServer();
-let fileHandle, fileStream;
+let fileHandle, fileWriteStream;
 server.on("connection", (socket) => {
   console.log("New client connected");
   socket.on("data", async (data) => {
-    fileHandle = await fs.open("storage/test.txt", "w");
-    fileStream = fileHandle.createWriteStream();
-    console.log(data);
-    fileStream.write(data);
+    if (!fileHandle) {
+      socket.pause();
+      fileHandle = await fs.open("storage/test.txt", "w");
+      fileWriteStream = fileHandle.createWriteStream();
+      fileWriteStream.write(data);
+      socket.resume();
+      fileWriteStream.on("drain", () => {
+        socket.resume();
+      });
+    } else if (!fileWriteStream.write(data)) {
+      socket.pause();
+    }
   });
   socket.on("end", async () => {
     console.log("Connection ended");

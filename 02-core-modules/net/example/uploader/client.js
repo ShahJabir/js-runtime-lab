@@ -4,11 +4,16 @@ import fs from "fs/promises";
 const socket = net.createConnection({ port: 5050, host: "::1" }, async () => {
   const filePath = "text.txt";
   const fileHandle = await fs.open(filePath, "r");
-  const fileStream = fileHandle.createReadStream();
-  fileStream.on("data", (chunk) => {
-    socket.write(chunk);
+  const fileReadStream = fileHandle.createReadStream();
+  fileReadStream.on("data", (chunk) => {
+    if (!socket.write(chunk)) {
+      fileReadStream.pause();
+    }
   });
-  fileStream.on("end", () => {
+  socket.on("drain", () => {
+    fileReadStream.resume();
+  });
+  fileReadStream.on("end", () => {
     socket.end();
   });
 });
