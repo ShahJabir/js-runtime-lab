@@ -6,11 +6,12 @@ let fileHandle, fileWriteStream;
 server.on("connection", (socket) => {
   console.log("New client connected");
   socket.on("data", async (data) => {
+    const fileName = data.subarray(10, data.indexOf("---")).toString("utf-8");
     if (!fileHandle) {
       socket.pause();
-      fileHandle = await fs.open("storage/test.txt", "w");
+      fileHandle = await fs.open(`storage/${fileName}`, "w");
       fileWriteStream = fileHandle.createWriteStream();
-      fileWriteStream.write(data);
+      fileWriteStream.write(data.subarray(data.indexOf("---") + 3));
       socket.resume();
       fileWriteStream.on("drain", () => {
         socket.resume();
