@@ -2,14 +2,16 @@ import dgram from "dgram";
 
 const server = dgram.createSocket("udp4");
 
-// server.on("message", (msg, rinfo) => {
-//   console.log("Received message:", msg.toString());
-//   console.log("From:", rinfo.address, "Port:", rinfo.port);
-// });
+server.on("message", (msg, rinfo) => {
+  const packet = JSON.parse(msg.toString("utf-8"));
+  if (packet.flag === "DATA") {
+    const buffer = Buffer.from(packet.content.data); // reconstruct buffer
+    console.log(`Flag: ${packet.flag}, Content: ${buffer.toString("utf-8")}`);
+  } else {
+    console.log(`Flag: ${packet.flag}, Content: ${packet.content}`);
+  }
 
-server.on("message", (msg) => {
-  if (Math.random() < 0.1) return; // drop 10%
-  console.log(msg.toString());
+  console.log("Client info:", rinfo);
 });
 
 server.on("listening", () => {
