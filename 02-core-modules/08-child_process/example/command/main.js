@@ -15,5 +15,4 @@ exec("ls src 2>&1 >/dev/null || true", (error, stdout, stderr) => {
     return;
   }
   stderr ? console.error(stderr) : console.log(stdout);
-  console.log("Hello, World! in last");
 });
