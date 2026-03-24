@@ -1,8 +1,11 @@
 import { spawn, exec } from "node:child_process";
 
-const sub_process = spawn("ls", ["-la"]);
+const echo = spawn("echo", ["Hello, World!"]);
+const tr = spawn("tr", [" ", "\n"]);
 
-sub_process.stdout.on("data", (data) => {
+echo.stdout.pipe(tr.stdin);
+
+tr.stdout.on("data", (data) => {
   console.log(data.toString());
 });
 
