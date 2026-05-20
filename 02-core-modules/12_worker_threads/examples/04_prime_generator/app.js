@@ -13,18 +13,6 @@ for (let i = 0; i < THREADS; i++) {
   const worker = new Worker(new URL("./worker_generate.js", import.meta.url), {
     workerData: data,
   });
-
-  worker.on("message", (result) => {
-    console.log(result);
-  });
-
-  worker.on("error", (error) => {
-    console.error(error);
-  });
-
-  worker.on("exit", (code) => {
-    console.log(`Worker exited with code ${code}`);
-  });
 }
 
 const worker_bigInt = new Worker(
