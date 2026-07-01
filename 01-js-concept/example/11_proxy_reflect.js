@@ -59,8 +59,7 @@ const user = new Proxy(
       if (prop.startsWith("_")) {
         return `Cannot delete private property: ${prop}`;
       }
-      delete target[prop];
-      return true;
+      return Reflect.deleteProperty(target, prop);
     },
   },
 );
