@@ -8,10 +8,5 @@ app.router = Router;
 
 window.addEventListener("DOMContentLoaded", () => {
   loadData();
-  const redirect = sessionStorage.getItem("redirect");
-  if (redirect) {
-    sessionStorage.removeItem("redirect");
-    history.replaceState({ route: redirect }, "", redirect);
-  }
   app.router.init();
 });
