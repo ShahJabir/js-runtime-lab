@@ -13,7 +13,6 @@ export const Router = {
     Router.go(location.pathname);
   },
   go: (route, addToHistory = true) => {
-    route = Router.normalizeRoute(route);
     if (addToHistory) {
       history.pushState({ route }, "", route);
     }
