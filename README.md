@@ -71,8 +71,7 @@ Phase 2 → Node.js Internals
 Phase 3 → Deno
 Phase 4 → Bun
 Phase 5 → Cloudflare Workers            (active — chess.shahjabir.com.bd)
-Phase 6 → ... (To be decided)
-Phase 7 → Cross-Runtime Systems & Architecture
+Phase 6 → Cross-Runtime Systems & Architecture
 ```
 
 See [`LEARNING_LOG.md`](./LEARNING_LOG.md) for the running journal and [`RESOURCES.md`](./RESOURCES.md) for the curated reading list per phase.
