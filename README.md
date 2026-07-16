@@ -144,33 +144,6 @@ After completing this repository, you should be able to:
 
 ---
 
-## 🛠️ Environment Setup
-
-> 📌 Each runtime folder is self-contained. Install what you need for the phase you're on.
-
-```bash
-node -v      # Node.js — v22+ recommended
-deno -v      # Deno — v2+
-bun -v       # Bun — v1.3+
-wrangler -v  # Cloudflare Workers CLI, for phase 5
-```
-
-```bash
-# Run a Node example
-node 02-node/core-modules/<example>/main.js
-
-# Run a Deno example
-deno run --allow-net 03-deno/<example>/main.ts
-
-# Run a Bun example
-bun run 04-bun/<example>/main.ts
-
-# Run a Worker locally
-cd 05-cloudflare-workers/<example> && wrangler dev
-```
-
----
-
 ## ⚠️ Disclaimer
 
 This repository is:
