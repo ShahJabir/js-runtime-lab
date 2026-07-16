@@ -1,10 +1,10 @@
-# 🧠 Node.js Core & Internals — A Systems-Level Learning Path
+# ⚙️ js-runtime-lab — A Systems-Level Learning Path
 
-> **Not a framework tutorial. Not a crash course.**
-> This repository is a **deep, internals-first journey into Node.js**, backend engineering, operating systems, networking, performance, and runtime architecture.
+> **Not a tutorial dump. Not a framework crash course.**
+> This repository is a **deep, internals-first journey into JavaScript/TypeScript runtimes** — from the engine and event loop up through Node.js, Deno, Bun, and Cloudflare Workers.
 
-If you are here to _"learn Express"_, this repo is **not for you**.
-If you want to **understand what Node.js really is and how it works under the hood**, welcome.
+If you are here to _"learn Express"_ or _"learn a framework"_, this repo is **not for you**.
+If you want to **understand what a JS runtime really is and how it works under the hood — in all its current forms**, welcome.
 
 ---
 
@@ -12,13 +12,14 @@ If you want to **understand what Node.js really is and how it works under the ho
 
 This repository exists to:
 
-- Understand **Node.js as a runtime**, not a web framework
-- Learn **core Node.js modules** without relying on external NPM packages
-- Build **low-level network, file, and streaming systems**
-- Understand **OS, networking, and concurrency concepts** behind backend systems
-- Learn how Node achieves **asynchronous I/O using libuv**
-- Write **high-performance, memory-efficient, scalable backend code**
-- Read and understand **Node.js documentation and source code** confidently
+- Understand **runtimes as systems**, not just "places JS runs"
+- Learn **core/native APIs** in every runtime before reaching for a framework
+- Build **deep intuition** for the event loop, I/O, and concurrency models each runtime uses
+- Understand the **engines** underneath (V8, JavaScriptCore) and how each runtime embeds them
+- Compare runtimes **against each other**, not just learn them in isolation
+- Learn how each runtime achieves **async I/O, isolation, and performance**
+- Read and understand **runtime source code and specs** confidently
+- Explore **edge computing architecture** through Cloudflare Workers
 
 This is a **learning log + reference + code lab**.
 
@@ -28,19 +29,19 @@ This is a **learning log + reference + code lab**.
 
 ```text
 Frameworks come and go.
-Internals stay forever.
+Runtimes and their internals stay forever.
 ```
 
 Principles followed in this repo:
 
-- ❌ No Express / Nest / Fastify
-- ❌ No unnecessary NPM packages
-- ✅ Core modules first
-- ✅ Source-code curiosity
-- ✅ Performance over convenience
+- ❌ No Express / Nest / Fresh / Hono without understanding what's underneath
+- ❌ No unnecessary npm packages when a native/core API does the job
+- ✅ Core/native APIs first, in every runtime
+- ✅ Source-code and spec curiosity over blog-post trust
+- ✅ Performance and correctness over convenience
 - ✅ Understanding "why", not just "how"
 
-Whenever possible, things are built **from scratch using Node core APIs**.
+Whenever possible, things are built **from scratch using each runtime's native APIs**.
 
 ---
 
@@ -48,106 +49,47 @@ Whenever possible, things are built **from scratch using Node core APIs**.
 
 This repository covers **far more than just Node.js**:
 
-- Node.js Architecture (V8, libuv, event loop)
-- Asynchronous I/O internals
-- Operating system fundamentals (processes, threads, syscalls)
-- File system internals
-- Streams & backpressure
-- Networking (TCP, UDP, DNS, HTTP)
-- Binary data & buffers
-- Cryptography (OpenSSL-backed)
-- Multithreading & multiprocessing in Node
-- Performance profiling & optimization
-- Native C++ addons (N-API)
+- JavaScript engine internals (V8, JavaScriptCore) — event loop, memory, JIT basics
+- TypeScript — type system internals, not just syntax
+- Node.js architecture — libuv, async I/O, streams, native addons
+- Deno — permission model, Web-standard APIs, secure-by-default design
+- Bun — Zig-based runtime, native bundler/test runner, JavaScriptCore integration
+- Cloudflare Workers — V8 isolates, `workerd`, Durable Objects, edge-native storage (D1/KV/R2)
+- Cross-runtime comparisons — where these runtimes agree, diverge, and why
 
 Think of this as:
 
-> **Systems Engineering with JavaScript**
+> **Systems Engineering through the lens of JavaScript Runtimes**
 
 ---
 
-## 📂 Repository Structure
+## 📍 Current Focus
 
 ```text
-nodejs-core-internals/
-│
-├── 00-foundations/
-│   ├── js-runtime-notes.md
-│   ├── os-basics.md
-│   └── unix-notes.md
-│
-├── 01-node-architecture/
-│   ├── architecture.md
-│   ├── event-loop.md
-│   └── libuv-overview.md
-│
-├── 02-core-modules/
-│   ├── fs/
-│   │   ├── fs-notes.md
-│   │   └── examples/
-│   ├── net/
-│   ├── http/
-│   ├── stream/
-│   ├── crypto/
-│   └── ...
-│
-├── 03-networking/
-│   ├── tcp.md
-│   ├── udp.md
-│   ├── dns.md
-│   └── http-deep-dive.md
-│
-├── 04-streams-performance/
-│   ├── streams-internals.md
-│   ├── backpressure.md
-│   └── large-data-processing.md
-│
-├── 05-concurrency/
-│   ├── event-driven-model.md
-│   ├── worker-threads.md
-│   └── clustering.md
-│
-├── 06-binary-and-crypto/
-│   ├── buffers.md
-│   ├── binary-protocols.md
-│   └── cryptography.md
-│
-├── 07-optimization/
-│   ├── performance.md
-│   ├── profiling.md
-│   └── memory-management.md
-│
-├── 08-internals/
-│   ├── module-loader.md
-│   ├── async-hooks.md
-│   ├── node-source-guide.md
-│   └── cpp-addons.md
-│
-├── projects/
-│   ├── raw-http-server/
-│   ├── tcp-chat/
-│   ├── stream-compressor/
-│   └── worker-thread-pool/
-│
-└── README.md
+Phase 1 → JavaScript & TypeScript Core (engine-level)   ← YOU ARE HERE
+Phase 2 → Node.js Internals
+Phase 3 → Deno
+Phase 4 → Bun
+Phase 5 → Cloudflare Workers            (active — chess.shahjabir.com.bd)
+Phase 6 → ... (To be decided)
+Phase 7 → Cross-Runtime Systems & Architecture
 ```
+
+See [`LEARNING_LOG.md`](./LEARNING_LOG.md) for the running journal and [`RESOURCES.md`](./RESOURCES.md) for the curated reading list per phase.
 
 ---
 
-## 📦 Core Rule: Core Modules First
+## 📦 Core Rule: Depth Before Breadth
 
-Every module used here is **from Node.js itself**, including but not limited to:
+Every topic explored here follows the same progression:
 
-- `fs`, `path`, `os`
-- `net`, `dgram`, `dns`
-- `http`, `https`, `tls`
-- `stream`, `zlib`
-- `buffer`, `crypto`
-- `events`, `timers`, `process`
-- `worker_threads`, `cluster`
-- `perf_hooks`, `async_hooks`
+1. **What is it?** — Conceptual foundation
+2. **How does it work?** — Internal mechanics
+3. **Why is it designed this way?** — Trade-offs and history
+4. **Where does it break?** — Failure modes and edge cases
+5. **How do I use it well?** — Practical, performance-aware application
 
-External packages are only discussed **conceptually**, never relied on.
+External frameworks and GUIs are only discussed **conceptually** or for comparison — native APIs, CLIs, and official docs are the primary interface.
 
 ---
 
@@ -155,29 +97,21 @@ External packages are only discussed **conceptually**, never relied on.
 
 ### 1️⃣ Read
 
-Each directory contains **Markdown notes** explaining:
-
-- Concepts
-- Internals
-- Why things work the way they do
+Each directory contains **Markdown notes** explaining concepts, internals, and trade-offs — not just "how to."
 
 ### 2️⃣ Code
 
-Every concept is backed by:
+Every concept is backed by small, runnable experiments — minimal examples, no boilerplate.
 
-- Small experiments
-- Minimal examples
-- Performance-oriented implementations
-
-### 3️⃣ Experiment
-
-Break things intentionally:
+### 3️⃣ Break Things Intentionally
 
 - Block the event loop
 - Exhaust memory
 - Flood sockets
+- Force a Worker isolate to cold-start under load
+- Compare the same program's behavior across Node, Deno, and Bun
 
-Then understand **why it broke**.
+Then understand **why it broke** and what the runtime was doing.
 
 ---
 
@@ -185,11 +119,11 @@ Then understand **why it broke**.
 
 This repository is ideal for:
 
-- Backend engineers who want **real depth**
-- Security engineers
-- Systems programmers curious about Node
+- Backend engineers who want **real depth**, not framework fluency
+- Security engineers who need to understand runtime attack surfaces
+- Systems programmers curious about how JS runtimes are actually built
 - Developers moving beyond frameworks
-- Anyone who wants to read Node.js source code
+- Anyone who wants to read Node/Deno/Bun/`workerd` source code and follow it
 
 This repo is **not beginner-friendly** — and that is intentional.
 
@@ -199,14 +133,40 @@ This repo is **not beginner-friendly** — and that is intentional.
 
 After completing this repository, you should be able to:
 
-- Explain Node.js architecture confidently
-- Build servers without frameworks
+- Explain the event loop and I/O model of Node, Deno, and Bun — and where they differ
+- Build servers without frameworks, on any of the four runtimes
 - Write memory-efficient streaming systems
-- Create TCP/UDP-based applications
-- Debug event loop blocking issues
-- Profile and optimize Node applications
-- Understand how Node interacts with the OS
-- Learn any Node.js framework effortlessly
+- Debug event-loop blocking and isolate cold-start issues
+- Reason about V8 isolates vs OS processes vs containers
+- Design an edge-native architecture on Cloudflare Workers (Durable Objects, D1, KV, R2, Queues)
+- Learn any new JS-runtime-adjacent tool effortlessly, because the fundamentals are solid
+
+---
+
+## 🛠️ Environment Setup
+
+> 📌 Each runtime folder is self-contained. Install what you need for the phase you're on.
+
+```bash
+node -v      # Node.js — v22+ recommended
+deno -v      # Deno — v2+
+bun -v       # Bun — v1.3+
+wrangler -v  # Cloudflare Workers CLI, for phase 5
+```
+
+```bash
+# Run a Node example
+node 02-node/core-modules/<example>/main.js
+
+# Run a Deno example
+deno run --allow-net 03-deno/<example>/main.ts
+
+# Run a Bun example
+bun run 04-bun/<example>/main.ts
+
+# Run a Worker locally
+cd 05-cloudflare-workers/<example> && wrangler dev
+```
 
 ---
 
@@ -220,14 +180,41 @@ This repository is:
 
 It prioritizes **understanding over speed** and **depth over comfort**.
 
+Notes here may contradict conventional wisdom — when they do, there will always be a reason.
+
+---
+
+## 👤 Author
+
+<p align="center">
+<a href="https://shahjabir.com.bd">
+<img src="https://img.shields.io/badge/Website-ShahJabir-black" alt="Website" /></a>
+<a href="https://github.com/ShahJabir">
+<img src="https://img.shields.io/badge/Github-ShahJabir-white" alt="Github" /></a>
+<a href="https://www.facebook.com/sjtaqi">
+<img src="https://img.shields.io/badge/Facebook-ShahJabir-blue" alt="Facebook" /></a>
+<a href="https://x.com/TaqiJabir">
+<img src="https://img.shields.io/badge/X-TaqiJabir-black" alt="Twitter" />
+</a>
+<a href="https://www.linkedin.com/in/shahjabir/">
+<img src="https://img.shields.io/badge/Linkedin-shahjabirtaqi-blue" alt="Linkedin" /></a>
+</p>
+
+---
+
+## 📄 License
+
+This repository is licensed under the [MIT License](./LICENSE).
+All notes, diagrams, and code are original work unless explicitly cited.
+
 ---
 
 ## 🏁 Final Words
 
 ```text
-Most people use Node.js.
-Very few understand it.
+Most people use a JS runtime.
+Very few understand more than one.
 This repo is for the second group.
 ```
 
-Happy Noding 🚀
+Happy Noding, Denoing, Bunning, and Working 🚀
