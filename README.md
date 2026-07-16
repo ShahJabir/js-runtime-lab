@@ -6,6 +6,8 @@
 If you are here to _"learn Express"_ or _"learn a framework"_, this repo is **not for you**.
 If you want to **understand what a JS runtime really is and how it works under the hood — in all its current forms**, welcome.
 
+![Alt](https://repobeats.axiom.co/api/embed/abce5e301e4393e503fdfb70248e5d576ec8da16.svg "Repobeats analytics image")
+
 ---
 
 ## 🎯 Purpose of This Repository
@@ -66,11 +68,11 @@ Think of this as:
 ## 📍 Current Focus
 
 ```text
-Phase 1 → JavaScript & TypeScript Core (engine-level)   ← YOU ARE HERE
+Phase 1 → JavaScript & TypeScript Core (engine-level)
 Phase 2 → Node.js Internals
 Phase 3 → Deno
 Phase 4 → Bun
-Phase 5 → Cloudflare Workers            (active — chess.shahjabir.com.bd)
+Phase 5 → Cloudflare Workers
 Phase 6 → Cross-Runtime Systems & Architecture
 ```
 
